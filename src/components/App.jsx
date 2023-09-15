@@ -1,57 +1,102 @@
 import PropTypes from 'prop-types';
-import { Profile } from './Profile/Profile';
-import { Statistics } from './Statistics/Statistics';
-import { FriendList } from './Friends/FriendList';
-import { TransactionHistory } from './Transaction/TransactionHistory';
-
-import friends from '../json-files/friends.json';
-import data from '../json-files/data.json'
-import user from '../json-files/user.json';
-import transactions from '../json-files/transactions.json';
+import React, { Component } from 'react';
+import './styles.css';
 
 
-const App = () => {
-  return (
+export default class App extends Component {
 
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      <Profile
-        username={user.username}
-        tag={user.tag}
-        location={user.location}
-        avatar={user.avatar}
-        stats={user.stats}
-      />
-      <Statistics title="Upload stats" stats={data} />
-      <Statistics stats={data} />
+  state = {
+    table: [[2.4, 1.05, 2.5, 0.38], [3.0, 1.12, 2.5, 0.35], [3.6, 1.20, 2.5, 0.32]],
+    mode: ["Органічний", "Напівнезалежний", "Вбудований"],
+    size: 0,
+    currentSize: 0,
+    effort: 0,
+    time: 0,
+    staff: 0,
+    model: 0,
+    resultsVisibility: false,
+  }
 
-      <FriendList friends={friends} />
-      <TransactionHistory items={transactions} />;
-    </div>
+  handleInputSize = async (e) => {
+    await this.setState({ size: e.target.value });
+  }
 
-  );
+  calculation = async (e) => {
+    e.preventDefault();
+
+    const { table,
+      size,
+      model } = this.state;
+
+    this.setState({ currentSize: size, resultsVisibility: true });
+
+    if (size >= 2 && size <= 50)
+      this.setState({ model: 0 }) // organic
+
+    else if (size > 50 && size <= 300)
+      this.setState({ model: 1 }) // semi-detached
+
+    else if (size > 300)
+      this.setState({ model: 2 }) // embedded
+
+    this.setState(prevState => {
+      return {
+        effort: Math.round(table[prevState.model][0] * (Math.pow(prevState.currentSize, table[prevState.model][1]))),
+      }
+    });
+    this.setState(prevState => {
+      return {
+        time: Math.round(table[prevState.model][2] * (Math.pow(prevState.effort, table[prevState.model][3]))),
+      }
+    });
+    this.setState(prevState => {
+      return {
+        staff: Math.round(prevState.effort / prevState.time)
+      }
+    });
+  }
+
+  render() {
+    return (
+
+      <div
+        style={{
+          fontSize: 40,
+          color: '#010101'
+        }}
+      >
+        <header className="searchbar">
+          <form action="">
+            <input
+              className="input"
+              type="text"
+              autoComplete="off"
+              autoFocus
+              placeholder="Кількість рядків коду (тис)"
+              onChange={this.handleInputSize}
+            />
+            <button type="button" onClick={this.calculation}>
+              <span className="button-label">розрахунок</span>
+            </button>
+          </form></header>
+
+        {!this.state.resultsVisibility && <div className='write-smth-container'>
+          <a href="#" class="arrow-up">Up</a>
+          <p>Напишіть щось вище</p>
+        </div>}
+        {this.state.resultsVisibility &&
+          <div className='results-container'>
+            <p className='results'><span>Тип проєкту</span> {this.state.mode[this.state.model]}</p>
+            <p className='results'><span>Трудомісткість</span>  {this.state.effort} (люд*міс)</p>
+            <p className='results'><span>Час розробки</span> {this.state.time} місяців</p>
+            <p className='results'><span>Чисельність персоналу</span> {this.state.staff} осіб</p></div>}
+
+      </div>
+
+
+    );
+  }
 };
-
-App.propTypes = {
-  username: PropTypes.string,
-  tag: PropTypes.string,
-  location: PropTypes.string,
-  avatar: PropTypes.string,
-  stats: PropTypes.object,
-  data: PropTypes.object,
-  friends: PropTypes.object,
-  transactions: PropTypes.object,
-}
-
 
 
 export { App };

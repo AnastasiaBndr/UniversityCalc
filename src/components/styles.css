@@ -1,0 +1,106 @@
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Стилі для кнопки */
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+
+  font-size: 16px;
+  cursor: pointer;
+  height: 30px;
+  width: 110px;
+  margin-left: 10px;
+
+  transition: background-color 0.1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+button:hover,
+button:focus {
+  background-color: #005cd4;
+}
+
+/* Стилі для вхідного поля */
+input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+/* Стилі для контейнера з результатами */
+.results-container {
+  margin-top: 50px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Стилі для результатів */
+.results {
+  font-size: 18px;
+}
+
+/* Стилі для кожного результату (наприклад, "Тип проєкту") */
+.results span {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.write-smth-container {
+  font-size: 18px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes uparrow {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+.arrow-up {
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0 1em;
+  display: block;
+  height: 0;
+  margin: 1em auto;
+  opacity: 0.4;
+  text-indent: -9999px;
+  transform-origin: 50% 50%;
+  width: 0;
+
+  animation: uparrow 2s infinite;
+  border-bottom: 1em solid #00b6f1;
+}
