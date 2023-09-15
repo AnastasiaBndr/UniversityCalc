@@ -35,11 +35,10 @@ export default class App extends Component {
       this.setState({ resultsVisibility: false });
     } else {
       if (size >= 2 && size <= 50)
-        this.setState({ model: 0 }) // organic
+        this.setState({ model: 0 })
 
       else if (size > 50 && size <= 300)
-        this.setState({ model: 1 }) // semi-detached
-
+        this.setState({ model: 1 })
       else if (size > 300)
         this.setState({ model: 2 })
 
