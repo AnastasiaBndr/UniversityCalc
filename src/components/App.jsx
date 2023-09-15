@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Notiflix from 'notiflix';
 import './styles.css';
@@ -27,7 +26,7 @@ export default class App extends Component {
 
     const { table,
       size,
-      model } = this.state;
+    } = this.state;
 
     this.setState({ currentSize: size, resultsVisibility: true });
 
