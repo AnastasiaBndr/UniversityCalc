@@ -88,7 +88,7 @@ export default class App extends Component {
           </form></header>
 
         {!this.state.resultsVisibility && <div className='write-smth-container'>
-          <a href="#" class="arrow-up">Up</a>
+          <a href="replace" class="arrow-up">Up</a>
           <p>Напишіть щось вище</p>
         </div>}
         {this.state.resultsVisibility &&
