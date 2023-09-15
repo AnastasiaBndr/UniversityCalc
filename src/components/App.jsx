@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import Notiflix from 'notiflix';
 import './styles.css';
 
 
@@ -30,30 +31,36 @@ export default class App extends Component {
 
     this.setState({ currentSize: size, resultsVisibility: true });
 
-    if (size >= 2 && size <= 50)
-      this.setState({ model: 0 }) // organic
+    if (size < 2) {
+      Notiflix.Notify.failure('Невірне значення.Введіть значення від 2-x включно', { position: 'right-bottom' });
+      this.setState({ resultsVisibility: false });
+    } else {
+      if (size >= 2 && size <= 50)
+        this.setState({ model: 0 }) // organic
 
-    else if (size > 50 && size <= 300)
-      this.setState({ model: 1 }) // semi-detached
+      else if (size > 50 && size <= 300)
+        this.setState({ model: 1 }) // semi-detached
 
-    else if (size > 300)
-      this.setState({ model: 2 }) // embedded
+      else if (size > 300)
+        this.setState({ model: 2 })
 
-    this.setState(prevState => {
-      return {
-        effort: Math.round(table[prevState.model][0] * (Math.pow(prevState.currentSize, table[prevState.model][1]))),
-      }
-    });
-    this.setState(prevState => {
-      return {
-        time: Math.round(table[prevState.model][2] * (Math.pow(prevState.effort, table[prevState.model][3]))),
-      }
-    });
-    this.setState(prevState => {
-      return {
-        staff: Math.round(prevState.effort / prevState.time)
-      }
-    });
+
+      this.setState(prevState => {
+        return {
+          effort: Math.round(table[prevState.model][0] * (Math.pow(prevState.currentSize, table[prevState.model][1]))),
+        }
+      });
+      this.setState(prevState => {
+        return {
+          time: Math.round(table[prevState.model][2] * (Math.pow(prevState.effort, table[prevState.model][3]))),
+        }
+      });
+      this.setState(prevState => {
+        return {
+          staff: Math.round(prevState.effort / prevState.time)
+        }
+      });
+    }
   }
 
   render() {
